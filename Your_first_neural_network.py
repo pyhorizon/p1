@@ -196,9 +196,9 @@ class NeuralNetwork(object):
             hidden_error_term = np.dot(features.T,hidden_error)
 
             # Weight step (input to hidden)
-            delta_weights_i_h += - hidden_error_term*self.lr
+            delta_weights_i_h += - hidden_error_term*self.lr/n_records
             # Weight step (hidden to output)
-            delta_weights_h_o += - output_error_term*self.lr
+            delta_weights_h_o += - output_error_term*self.lr/n_records
 
         # TODO: Update the weights - Replace these values with your calculations.
         self.weights_hidden_to_output +=delta_weights_h_o # update hidden-to-output weights with gradient descent step
@@ -318,13 +318,13 @@ unittest.TextTestRunner().run(suite)
 # 
 # 隐藏节点越多，模型的预测结果就越准确。尝试不同的隐藏节点的数量，看看对性能有何影响。你可以查看损失字典，寻找网络性能指标。如果隐藏单元的数量太少，那么模型就没有足够的空间进行学习，如果太多，则学习方向就有太多的选择。选择隐藏单元数量的技巧在于找到合适的平衡点。
 
-# In[24]:
+# In[12]:
 
 import sys
 
 ### TODO:Set the hyperparameters here, you need to change the defalut to get a better solution ###
 iterations = 5000
-learning_rate = 1e-4#when i use lr=0.5(even smaller),the error will be inf after 200~300 epochs
+learning_rate = 1e-3#when i use lr=0.5(even smaller),the error will be inf after 200~300 epochs
 hidden_nodes = 13
 output_nodes = 1
 batch_size= 128
@@ -351,7 +351,7 @@ for ii in range(iterations):
     losses['validation'].append(val_loss)
 
 
-# In[25]:
+# In[13]:
 
 plt.plot(losses['train'], label='Training loss')
 plt.plot(losses['validation'], label='Validation loss')
@@ -363,7 +363,7 @@ _ = plt.ylim()
 # 
 # 使用测试数据看看网络对数据建模的效果如何。如果完全错了，请确保网络中的每步都正确实现。
 
-# In[26]:
+# In[14]:
 
 fig, ax = plt.subplots(figsize=(8,4))
 
