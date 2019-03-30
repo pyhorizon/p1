@@ -188,7 +188,7 @@ class NeuralNetwork(object):
             error = final_outputs-targets # Output layer error is the difference between desired target and actual output.
             
             # TODO: Calculate the hidden layer's contribution to the error
-            hidden_error = self.activation_function(hidden_inputs)*(1-self.activation_function(hidden_inputs))            *np.dot(error,self.weights_hidden_to_output.T)
+            hidden_error = self.activation_function(hidden_inputs)*            (1 - self.activation_function(hidden_inputs))*            np.dot(error,self.weights_hidden_to_output.T)
                                                                                                                 
             
             # TODO: Backpropagated error terms - Replace these values with your calculations.
@@ -196,9 +196,9 @@ class NeuralNetwork(object):
             hidden_error_term = np.dot(features.T,hidden_error)
 
             # Weight step (input to hidden)
-            delta_weights_i_h += -hidden_error_term*self.lr
+            delta_weights_i_h += - hidden_error_term*self.lr
             # Weight step (hidden to output)
-            delta_weights_h_o += -output_error_term*self.lr
+            delta_weights_h_o += - output_error_term*self.lr
 
         # TODO: Update the weights - Replace these values with your calculations.
         self.weights_hidden_to_output +=delta_weights_h_o # update hidden-to-output weights with gradient descent step
@@ -318,16 +318,16 @@ unittest.TextTestRunner().run(suite)
 # 
 # 隐藏节点越多，模型的预测结果就越准确。尝试不同的隐藏节点的数量，看看对性能有何影响。你可以查看损失字典，寻找网络性能指标。如果隐藏单元的数量太少，那么模型就没有足够的空间进行学习，如果太多，则学习方向就有太多的选择。选择隐藏单元数量的技巧在于找到合适的平衡点。
 
-# In[15]:
+# In[24]:
 
 import sys
 
 ### TODO:Set the hyperparameters here, you need to change the defalut to get a better solution ###
-iterations = 1000
-learning_rate = 1e-6
-hidden_nodes = 64
+iterations = 5000
+learning_rate = 1e-4#when i use lr=0.5(even smaller),the error will be inf after 200~300 epochs
+hidden_nodes = 13
 output_nodes = 1
-batch_size=128
+batch_size= 128
 
 N_i = train_features.shape[1]
 #print(N_i)
@@ -351,7 +351,7 @@ for ii in range(iterations):
     losses['validation'].append(val_loss)
 
 
-# In[16]:
+# In[25]:
 
 plt.plot(losses['train'], label='Training loss')
 plt.plot(losses['validation'], label='Validation loss')
@@ -363,7 +363,7 @@ _ = plt.ylim()
 # 
 # 使用测试数据看看网络对数据建模的效果如何。如果完全错了，请确保网络中的每步都正确实现。
 
-# In[17]:
+# In[26]:
 
 fig, ax = plt.subplots(figsize=(8,4))
 
