@@ -174,7 +174,8 @@ class NeuralNetwork(object):
             #### Implement the forward pass here ####
             ### Forward pass ###
             # TODO: Hidden layer - Replace these values with your calculations.
-            hidden_inputs = np.dot(features,self.weights_input_to_hidden) # signals into hidden layer
+            X=X.reshape(1,-1)
+            hidden_inputs = np.dot(X,self.weights_input_to_hidden) # signals into hidden layer
             hidden_outputs = self.activation_function(hidden_inputs) # signals from hidden layer
 
             # TODO: Output layer - Replace these values with your calculations.
@@ -185,7 +186,7 @@ class NeuralNetwork(object):
             ### Backward pass ###
 
             # TODO: Output error - Replace this value with your calculations.
-            error = final_outputs-targets # Output layer error is the difference between desired target and actual output.
+            error = final_outputs-y # Output layer error is the difference between desired target and actual output.
             
             # TODO: Calculate the hidden layer's contribution to the error
             hidden_error = self.activation_function(hidden_inputs)*            (1 - self.activation_function(hidden_inputs))*            np.dot(error,self.weights_hidden_to_output.T)
@@ -193,7 +194,7 @@ class NeuralNetwork(object):
             
             # TODO: Backpropagated error terms - Replace these values with your calculations.
             output_error_term = np.dot(hidden_outputs.T,error)
-            hidden_error_term = np.dot(features.T,hidden_error)
+            hidden_error_term = np.dot(X.T,hidden_error)
 
             # Weight step (input to hidden)
             delta_weights_i_h += - hidden_error_term*self.lr/n_records
@@ -323,9 +324,9 @@ unittest.TextTestRunner().run(suite)
 import sys
 
 ### TODO:Set the hyperparameters here, you need to change the defalut to get a better solution ###
-iterations = 5000
-learning_rate = 1e-3#when i use lr=0.5(even smaller),the error will be inf after 200~300 epochs
-hidden_nodes = 13
+iterations = 7000
+learning_rate = 0.6
+hidden_nodes = 14
 output_nodes = 1
 batch_size= 128
 
